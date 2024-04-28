@@ -94,10 +94,10 @@
      navigator.geolocation.watchPosition(({coords}) => {
          lat = coords.latitude
          lon = coords.longitude
-         map = L.map('map').setView([lat, lon], 23);
+         /*map = L.map('map').setView([lat, lon], 23);
 	 tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-         }).addTo(map);
+         }).addTo(map); */
 
 	    fun(lat, lon)     
 	     
@@ -142,8 +142,6 @@
       map.locate({setView: false, watch: true, maxZoom: 23});    
     } */
  
-  var map = null; // Declara la variable map aquí
-
 var fun = function (la, lo) {
     function onLocationFound(e) {
         var radius = e.accuracy / 2;
