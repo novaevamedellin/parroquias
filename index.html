@@ -57,6 +57,35 @@
       maximumAge: 1000, // 1s
       timeout: 2000 // 2s
     }
+
+    var parroquias = [
+	  {
+	    "nombre": "Santa Rita de Casia",
+	    "barrios": "Simon Bolivar",
+	    "inicia_dia": "30-abr",
+	    "hora": "7:00 p. m.",
+	    "latitude": "6.218091",
+	    "longitude": "-75.575764"
+	  },
+	  {
+	    "nombre": "Ntra.Sra.de las Nieves",
+	    "barrios": "Manrique",
+	    "inicia_dia": "20-may",
+	    "hora": "8:00 p. m.",
+	    "latitude": "6.1895",
+	    "longitude": "-75.5608"
+	  },
+	  {
+	    "nombre": "El Inmaculado Corazon de Math",
+	    "barrios": "Miramar",
+	    "inicia_dia": "29-abr",
+	    "hora": "7:30 p. m.",
+	    "latitude": "6.1977",
+	    "longitude": "-75.5897"
+	  }
+	];
+
+	  
     var map= "";
     var tiles ="";
     var marker, circle, markerCameras;
@@ -75,15 +104,11 @@
 
          const timestamp = Date.now()
          if(localStorage.getItem('client') === null){ 
-            insertObjectCoords(lat, lon, timestamp)
             localStorage.setItem('client', timestamp)
          } else {
             clientUniqueTimestampId =  localStorage.getItem('client')
             console.log(clientUniqueTimestampId)
-            getSectorMarkers(lat,lon)
-             socket.emit('load_init_emit', 'hola'); // e.latlng);
          }         
-         
 
          //Loop through the markers array
       /*   for (var i=0; i<markers.length; i++) {
@@ -103,54 +128,30 @@
      }, console.error, options);
      
     var fun = function (la, lo) {
-  function onLocationFound(e) {
+    	function onLocationFound(e) {
           var radius = e.accuracy / 2;
           if (marker) { // check
              map.removeLayer(marker); // remove
           }
           // marker = L.marker(e.latlng).addTo(map);
-
           marker = L.marker(e.latlng, {icon: greenIcon}).addTo(map);
-      }
+      	}
       map.on('locationfound', onLocationFound);
       map.locate({setView: true, watch: true, maxZoom: 17});
-    }
+    } 
 
-    // al momento de ingreasr el usuario se ingresa a object_coords y es cargado en get sector
-    // junto con otro usuario activo que haya entrado
-    var insertObjectCoords = function(la, lo, clientUniqueTimestampId){
-	    $.ajax({
-	      url: 'https://camarasdefotodeteccion.com/insertparking',
-	      method : 'POST',
-	      data: {"user_lat":la, "user_lon":lo, "state": clientUniqueTimestampId},
-	      success : function(data){ 
-		ciudad = data
-	      }, error: function(err){console.log('Failed');} 
-	    });
-     }
- 
-     var getSectorMarkers = function(la, lo){
-	    // para hacer broadcast con socket.io a todos del punto actualizado
-            // socket.emit( 'load_init_emit', {"user_lat":la, "user_lon":lo, "clientUniqueTimestampId": clientUniqueTimestampId} ); 	
-	   $.ajax({
-	      url: 'https://camarasdefotodeteccion.com/getsector',
-	      method : 'POST',
-	      data: {"user_lat":la, "user_lon":lo,},
-	      success : function(data){
-                console.log(data)
-                data.forEach(function(marker) {
-                  L.marker([marker.latitude, marker.longitude]).addTo(map);
-                });
-	      }, error: function(err){console.log('Failed');} 
-           });
-     }
+   var loadMarkers = function(parroquias) {
+   	parroquias.forEach(function(parroquia) {
+	    L.marker([parseFloat(parroquia.latitude), parseFloat(parroquia.longitude)])
+	      .addTo(map)
+	      .bindPopup(`<b>${parroquia.nombre}</b><br>${parroquia.barrios}<br>${parroquia.inicia_dia}, ${parroquia.hora}`);
+	});
+   }
 
-
-     socket.on('load_init_on', function(msg){
-            console.log(msg);
-        });
-
-  
+  // Después de que el mapa esté listo, carga los marcadores
+map.on('load', function() {
+  loadMarkers(parroquias);
+});
 
   </script>
 </body>
