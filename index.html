@@ -134,10 +134,10 @@
           }
           // marker = L.marker(e.latlng).addTo(map);
           marker = L.marker(e.latlng, {icon: greenIcon}).addTo(map);
-	  	
+	  marker.bindPopup("Tú estás aquí").openPopup(); // Agrega el popup
       	}
       map.on('locationfound', onLocationFound);
-      map.locate({setView: true, watch: true, maxZoom: 23});    
+      map.locate({setView: false, watch: true, maxZoom: 23});    
     } 
 
    var loadMarkers = function(parroquias) {
