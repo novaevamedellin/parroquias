@@ -140,7 +140,7 @@
       map.on('locationfound', onLocationFound);
       map.locate({setView: true, watch: true, maxZoom: 17});
       // Después de que el mapa esté listo, carga los marcadores
-      map.on('load', function() {
+      map.on(loadMarkers, function() {
        loadMarkers(parroquias);
       });	    
     } 
