@@ -94,7 +94,7 @@
      navigator.geolocation.watchPosition(({coords}) => {
          lat = coords.latitude
          lon = coords.longitude
-         map = L.map('map').setView([lat, lon], 17);
+         map = L.map('map').setView([lat, lon], 23);
 	 tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
          }).addTo(map);
@@ -137,7 +137,7 @@
 	  	
       	}
       map.on('locationfound', onLocationFound);
-      map.locate({setView: true, watch: true, maxZoom: 17});    
+      map.locate({setView: true, watch: true, maxZoom: 23});    
     } 
 
    var loadMarkers = function(parroquias) {
