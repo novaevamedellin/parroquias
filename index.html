@@ -98,6 +98,8 @@
 	 tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
          }).addTo(map);
+
+	    fun(lat, lon)     
 	     
          loadMarkers(parroquias);
 
@@ -123,10 +125,10 @@
 			
          } */ 
         
-         fun(lat, lon)
+      
      }, console.error, options);
      
-    var fun = function (la, lo) {
+   /* var fun = function (la, lo) {
     	function onLocationFound(e) {
           var radius = e.accuracy / 2;
           if (marker) { // check
@@ -138,8 +140,33 @@
       	}
       map.on('locationfound', onLocationFound);
       map.locate({setView: false, watch: true, maxZoom: 23});    
-    } 
+    } */
+ 
+  var map = null; // Declara la variable map aquí
 
+var fun = function (la, lo) {
+    function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+        if (marker) { // check
+            map.removeLayer(marker); // remove
+        }
+        // marker = L.marker(e.latlng).addTo(map);
+        marker = L.marker(e.latlng, {icon: greenIcon}).addTo(map);
+        marker.bindPopup("Tú estás aquí").openPopup(); // Agrega el popup
+    }
+    
+    if (!map) { // Verifica si el mapa ya está inicializado
+        map = L.map('map').setView([la, lo], 17);
+        tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        map.on('locationfound', onLocationFound);
+        map.locate({setView: false, watch: true, maxZoom: 17}); // No establezcas la vista aquí
+    }
+}
+
+	  
    var loadMarkers = function(parroquias) {
    	parroquias.forEach(function(parroquia) {
 	    L.marker([parseFloat(parroquia.latitude), parseFloat(parroquia.longitude)])
