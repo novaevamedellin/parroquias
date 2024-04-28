@@ -135,9 +135,14 @@
           }
           // marker = L.marker(e.latlng).addTo(map);
           marker = L.marker(e.latlng, {icon: greenIcon}).addTo(map);
+	  	
       	}
       map.on('locationfound', onLocationFound);
       map.locate({setView: true, watch: true, maxZoom: 17});
+      // Después de que el mapa esté listo, carga los marcadores
+      map.on('load', function() {
+       loadMarkers(parroquias);
+      });	    
     } 
 
    var loadMarkers = function(parroquias) {
@@ -147,11 +152,6 @@
 	      .bindPopup(`<b>${parroquia.nombre}</b><br>${parroquia.barrios}<br>${parroquia.inicia_dia}, ${parroquia.hora}`);
 	});
    }
-
-  // Después de que el mapa esté listo, carga los marcadores
-map.on('load', function() {
-  loadMarkers(parroquias);
-});
 
   </script>
 </body>
