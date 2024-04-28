@@ -94,13 +94,12 @@
      navigator.geolocation.watchPosition(({coords}) => {
          lat = coords.latitude
          lon = coords.longitude
-     
-         
-         	map = L.map('map').setView([lat, lon], 17);
-         	tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            	maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-         	}).addTo(map);
-         
+         map = L.map('map').setView([lat, lon], 17);
+	 tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+         }).addTo(map);
+	     
+         loadMarkers(parroquias);
 
          const timestamp = Date.now()
          if(localStorage.getItem('client') === null){ 
@@ -138,11 +137,7 @@
 	  	
       	}
       map.on('locationfound', onLocationFound);
-      map.locate({setView: true, watch: true, maxZoom: 17});
-      // Después de que el mapa esté listo, carga los marcadores
-      map.on(loadMarkers, function() {
-       loadMarkers(parroquias);
-      });	    
+      map.locate({setView: true, watch: true, maxZoom: 17});    
     } 
 
    var loadMarkers = function(parroquias) {
