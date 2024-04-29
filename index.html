@@ -398,7 +398,7 @@ var fun = function (la, lo) {
    	parroquias.forEach(function(parroquia) {
 	    L.marker([parseFloat(parroquia.latitude), parseFloat(parroquia.longitude)])
 	      .addTo(map)
-	      .bindPopup(`<b>${parroquia.nombre}</b><br>${parroquia.barrios}<br>${parroquia.inicia_dia}, ${parroquia.hora}`);
+	      .bindPopup(`<b>${parroquia.nombre}</b><br>${parroquia.barrios}<br>${parroquia.inicia_dia} <br>${parroquia.hora}`);
 	});
    }
 
