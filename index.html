@@ -365,6 +365,8 @@
     } */
  
 var fun = function (la, lo) {
+    var locationFound = false; // Variable para controlar si la ubicación actual ha sido encontrada
+
     function onLocationFound(e) {
         var radius = e.accuracy / 2;
         if (marker) { // check
@@ -373,6 +375,8 @@ var fun = function (la, lo) {
         // marker = L.marker(e.latlng).addTo(map);
         marker = L.marker(e.latlng, {icon: greenIcon}).addTo(map);
         marker.bindPopup("Tú estás aquí").openPopup(); // Agrega el popup
+        locationFound = true; // Marca la ubicación como encontrada
+        map.stopLocate(); // Detiene la búsqueda de ubicación después de encontrarla una vez
     }
     
     if (!map) { // Verifica si el mapa ya está inicializado
@@ -381,11 +385,14 @@ var fun = function (la, lo) {
             maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        map.on('locationfound', onLocationFound);
+        map.on('locationfound', function(e) {
+            if (!locationFound) { // Verifica si la ubicación aún no se ha encontrado
+                onLocationFound(e); // Llama a la función onLocationFound solo si la ubicación aún no se ha encontrado
+            }
+        });
         map.locate({setView: false, watch: true, maxZoom: 17}); // No establezcas la vista aquí
     }
 }
-
 	  
    var loadMarkers = function(parroquias) {
    	parroquias.forEach(function(parroquia) {
