@@ -380,7 +380,7 @@ var fun = function (la, lo) {
     }
     
     if (!map) { // Verifica si el mapa ya está inicializado
-        map = L.map('map').setView([la, lo], 17);
+        map = L.map('map').setView([la, lo], 14);
         tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 30, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
@@ -390,7 +390,7 @@ var fun = function (la, lo) {
                 onLocationFound(e); // Llama a la función onLocationFound solo si la ubicación aún no se ha encontrado
             }
         });
-        map.locate({setView: false, watch: true, maxZoom: 17}); // No establezcas la vista aquí
+        map.locate({setView: false, watch: true, maxZoom: 14}); // No establezcas la vista aquí
     }
 }
 	  
